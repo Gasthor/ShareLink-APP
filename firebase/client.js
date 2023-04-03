@@ -15,11 +15,7 @@ const firebaseConfig = {
 
 const userFirebase = (user) => {
   console.log(user)
-  const { email } = user.email
-  const profileUser = {
-    email
-  }
-  return profileUser
+  return user
 }
 
 export const onAuthStateChange = (onChange) => {

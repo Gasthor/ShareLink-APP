@@ -32,7 +32,7 @@ export default function NavBar () {
           : <Button onClick={handleSingOut}>
             {
               user !== undefined &&
-              <img className='m-1 w-6 rounded-full' src={'https://lh3.googleusercontent.com/a/AGNmyxbncDOLa4oeOJBUCIoma8LSV3Lr51OMNVXZx2gF=s96-c'}/>
+              <img className='m-1 w-6 rounded-full' src={user.photoURL} />
             }
 
             Cerrar sesión

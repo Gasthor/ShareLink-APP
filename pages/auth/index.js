@@ -20,10 +20,10 @@ export default function Auth () {
     logOut().then(res => console.log(res))
   }
 
-  const handleSingIn = async () => {
+  const handleSingIn = () => {
     loginWithGoogle().then(res => {
       setUser(res)
-      router.push('/')
+      router.push('/user')
     }).catch(err => {
       console.log(err)
     })
