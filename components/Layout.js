@@ -1,12 +1,12 @@
-import NavBar from "./Navbar";
+import NavBar from './Navbar'
 
-export default function Layout({ children }) {
-    return (
+export default function Layout ({ children }) {
+  return (
         <>
             <NavBar />
             <main>
                 {children}
             </main>
         </>
-    )
+  )
 }

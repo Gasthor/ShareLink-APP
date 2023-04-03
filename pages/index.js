@@ -1,12 +1,7 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import NavBar from '@/components/Navbar'
 import Link from 'next/link'
 
-
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
+export default function Home () {
   return (
     <>
       <Head>
@@ -16,10 +11,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <h1 className='m-2 text-center text-xl'>Compartir tus fotos u archivos nunca fue tan facil!!</h1>
+        <h1 className='m-6 text-center text-2xl font-semibold'>Compartir tus archivos nunca fue tan facil!!</h1>
         <div className="flex justify-center">
           <div className="m-1 p-2 bg-white rounded-xl max-w-3xl">
-            <h1 className="my-4 text-xl font-semibold text-center">Arrastra los archivos a compartir</h1>
+            <h1 className="my-4 text-xl text-center">Arrastra los archivos a compartir</h1>
             <div className=" flex items-center justify-center w-full my-2">
               <label htmlFor="dropzone-file" className="shadow-lg flex flex-col items-center justify-center w-full h-64 p-2 border-2 border-blue-500 border-dashed rounded-lg cursor-pointer bg-gray-100">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
