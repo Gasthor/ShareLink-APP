@@ -1,25 +1,21 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { onAuthStateChange, logOut } from '@/firebase/client'
+import { onAuthStateChange } from '@/firebase/client'
 import Button from './Button'
+import { useRouter } from 'next/router'
 
 export default function NavBar () {
   const [user, setUser] = useState(null)
-
+  const router = useRouter()
   useEffect((user) => {
     setUser(onAuthStateChange(setUser))
   }, [])
 
-  const handleSingOut = async () => {
-    await logOut()
-    setUser(null)
-  }
-
   return (
     <nav className="flex justify-between bg-blue-600 py-2 px-4 mb-1 rounded-b-xl">
-      <div className="max-w-5xl">
-        <Link className="text-white" href="/">
-          <h1 className=''>ShareLink</h1>
+      <div className="max-w-5xl flex">
+        <Link className="text-white flex" href="/">
+          <h1 className='m-auto text-lg font-semibold'>ShareLink</h1>
         </Link>
       </div>
       {
@@ -29,13 +25,15 @@ export default function NavBar () {
               <a className='text-white text-sm' href='/auth'>Iniciar sesión</a>
             </div>
             )
-          : <Button onClick={handleSingOut}>
+          : <Button onClick={() => router.push('/user')}>
             {
               user !== undefined &&
               <img className='m-1 w-6 rounded-full' src={user.photoURL} />
             }
+            <h1 className='m-auto'>
+            Perfil
+            </h1>
 
-            Cerrar sesión
           </Button>
 
       }
