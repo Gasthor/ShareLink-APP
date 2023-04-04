@@ -6,10 +6,18 @@ import { useState } from 'react'
 
 export default function Home () {
   const [message, setMessage] = useState('')
+  const [link, setLink] = useState(null)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    addLink(message)
+    if (!link) {
+      const link = await addLink(message)
+      setLink(link)
+    }
+  }
+  const clipboard = () => {
+    console.log(link)
+    navigator.clipboard.writeText(link)
   }
 
   return (
@@ -38,9 +46,20 @@ export default function Home () {
               </div>
               <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-[1px] border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
               <div className="flex justify-center">
-                <Button colorBg="bg-green-500" disabled={message.length === 0}>
-                  <h1>Generar Link</h1>
-                </Button>
+                {
+                  link
+                    ? <div className='flex justify-center flex-col m-2 text-center'>
+                    <h1 className='text-lg'>Link generado con exito</h1>
+                    <h1 className='text-sm'>https://sharelink-app.vercel.app/{link}</h1>
+                    <Button onClick={clipboard} colorBg="bg-green-500">
+                      Copiar link
+                    </Button>
+                    </div>
+                    : <Button colorBg="bg-green-500" disabled={message.length === 0}>
+                      <h1>Generar Link</h1>
+                    </Button>
+                }
+
               </div>
             </form>
           </div>
