@@ -38,7 +38,7 @@ export default function Home () {
               </div>
               <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-[1px] border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
               <div className="flex justify-center">
-                <Button colorBg='bg-green-500 ' disabled={message.length === 0}>
+                <Button colorBg="bg-green-500" disabled={message.length === 0}>
                   <h1>Generar Link</h1>
                 </Button>
               </div>
