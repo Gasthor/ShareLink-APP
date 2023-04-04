@@ -1,5 +1,6 @@
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/auth'
+import { initializeApp } from 'firebase/app'
+import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore'
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAOVp6Kft7v_HHoIWfN_9WJ2NtiQVuXymw',
@@ -11,7 +12,10 @@ const firebaseConfig = {
   measurementId: 'G-GX7LQS91BE'
 }
 
-!firebase.apps.length && firebase.initializeApp(firebaseConfig)
+const firebase = initializeApp(firebaseConfig)
+const auth = getAuth(firebase)
+
+const db = getFirestore()
 
 const userFirebase = (user) => {
   console.log(user)
@@ -19,17 +23,37 @@ const userFirebase = (user) => {
 }
 
 export const onAuthStateChange = (onChange) => {
-  firebase.auth().onAuthStateChanged(user => {
+  auth.onAuthStateChanged(user => {
     const normalizeUser = user ? userFirebase(user) : null
     onChange(normalizeUser)
   })
 }
 
 export const logOut = () => {
-  firebase.auth().signOut()
+  signOut(auth)
+  // falta desarrollar!!
 }
 
 export const loginWithGoogle = () => {
-  const googleProvider = new firebase.auth.GoogleAuthProvider()
-  return firebase.auth().signInWithPopup(googleProvider)
+  const provider = new GoogleAuthProvider()
+  return signInWithPopup(auth, provider).then(
+    (res) => {
+      return res.user
+    }
+  )
+}
+
+export const addLink = async (description) => {
+  try {
+    const doc = await addDoc(collection(db, 'sharelink'), {
+      description,
+      createdAt: Timestamp.fromDate(new Date()),
+      downloadsCount: 0,
+      pathFiles: ''
+    })
+    console.log(doc.id)
+    return doc.id
+  } catch (e) {
+    console.log(e)
+  }
 }

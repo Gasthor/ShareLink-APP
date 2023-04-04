@@ -25,12 +25,12 @@ export default function NavBar () {
               <a className='text-white text-sm' href='/auth'>Iniciar sesión</a>
             </div>
             )
-          : <Button onClick={() => router.push('/user')}>
+          : <Button onClick={() => router.push('/user')} colorBg="bg-slate-200">
             {
               user !== undefined &&
               <img className='m-1 w-6 rounded-full' src={user.photoURL} />
             }
-            <h1 className='m-auto'>
+            <h1 className='m-auto text-slate-600'>
             Perfil
             </h1>
 

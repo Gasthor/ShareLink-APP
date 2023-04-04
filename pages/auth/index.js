@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Button from '@/components/Button'
-import { loginWithGoogle, logOut, onAuthStateChange } from '@/firebase/client'
+import { loginWithGoogle, logOut } from '@/firebase/client'
 import { useRouter } from 'next/router'
+import useUser from '@/hooks/useUser'
 
 export default function Auth () {
   const router = useRouter()
 
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    setUser(onAuthStateChange(setUser))
-  }, [])
+  const user = useUser()
 
   useEffect(() => {
     user && router.push('/')
@@ -22,7 +19,6 @@ export default function Auth () {
 
   const handleSingIn = () => {
     loginWithGoogle().then(res => {
-      setUser(res)
       router.push('/user')
     }).catch(err => {
       console.log(err)
