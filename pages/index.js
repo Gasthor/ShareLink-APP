@@ -7,6 +7,7 @@ import { useState } from 'react'
 export default function Home () {
   const [message, setMessage] = useState('')
   const [link, setLink] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -16,8 +17,8 @@ export default function Home () {
     }
   }
   const clipboard = () => {
-    console.log(link)
-    navigator.clipboard.writeText(link)
+    navigator.clipboard.writeText('https://sharelink-app.vercel.app/' + link)
+    setCopied(true)
   }
 
   return (
@@ -29,9 +30,10 @@ export default function Home () {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <h1 className='m-6 text-center text-2xl font-semibold'>Compartir tus archivos nunca fue tan facil!!</h1>
-        <div className="flex justify-center">
-          <div className="m-1 p-2 bg-white rounded-xl max-w-3xl">
+
+        <div className="flex justify-center max-w-3xl">
+
+          <div className="m-1 p-2 bg-white rounded-xl">
             <h1 className="my-4 text-xl text-center">Arrastra los archivos a compartir</h1>
             <form onSubmit={handleSubmit}>
               <div className=" flex items-center justify-center w-full my-2">
@@ -45,21 +47,27 @@ export default function Home () {
                 </label>
               </div>
               <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-[1px] border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
-              <div className="flex justify-center">
+              <div className="flex justify-center flex-col">
                 {
                   link
                     ? <div className='flex justify-center flex-col m-2 text-center'>
-                    <h1 className='text-lg'>Link generado con exito</h1>
-                    <h1 className='text-sm'>https://sharelink-app.vercel.app/{link}</h1>
-                    <Button onClick={clipboard} colorBg="bg-green-500">
-                      Copiar link
-                    </Button>
-                    </div>
-                    : <Button colorBg="bg-green-500" disabled={message.length === 0}>
-                      <h1>Generar Link</h1>
-                    </Button>
-                }
+                      <h1 className='text-lg'>Link generado con exito</h1>
+                      <h1 className='text-sm border-[2px] p-1 rounded-lg border-green-500 my-2'>https://sharelink-app.vercel.app/{link}</h1>
 
+                      <div className='flex justify-center'>
+                        <Button onClick={clipboard} colorBg="bg-green-500">
+                          {
+                            !copied ? <h1>Copiar link</h1> : <h1>Link copiado!!!</h1>
+                          }
+                        </Button>
+                      </div>
+                    </div>
+                    : <div className='flex justify-center'>
+                      <Button colorBg="bg-green-500" disabled={message.length === 0}>
+                        <h1>Generar Link</h1>
+                      </Button>
+                    </div>
+                }
               </div>
             </form>
           </div>

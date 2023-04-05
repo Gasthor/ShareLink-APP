@@ -1,18 +1,14 @@
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { onAuthStateChange } from '@/firebase/client'
 import Button from './Button'
 import { useRouter } from 'next/router'
+import useUser from '@/hooks/useUser'
 
 export default function NavBar () {
-  const [user, setUser] = useState(null)
+  const user = useUser()
   const router = useRouter()
-  useEffect((user) => {
-    setUser(onAuthStateChange(setUser))
-  }, [])
 
   return (
-    <nav className="flex justify-between bg-blue-600 py-2 px-4 mb-1 rounded-b-xl">
+    <nav className="flex justify-between bg-blue-600 py-1 px-4 mb-1 shadow-xl">
       <div className="max-w-5xl flex">
         <Link className="text-white flex" href="/">
           <h1 className='m-auto text-lg font-semibold'>ShareLink</h1>
@@ -21,16 +17,16 @@ export default function NavBar () {
       {
         user === null
           ? (
-            <div className='bg-blue-500 p-2 rounded-xl border-[1px] shadow-lg'>
-              <a className='text-white text-sm' href='/auth'>Iniciar sesión</a>
+            <div className='bg-blue-700 p-2 m-1 rounded-xl border-[1px] shadow-lg'>
+              <a className='text-white text-sm font-semibold' href='/auth'>Iniciar sesión</a>
             </div>
             )
-          : <Button onClick={() => router.push('/user')} colorBg="bg-slate-200">
+          : <Button onClick={() => router.push('/user')} colorBg="bg-blue-700 border-[1px]">
             {
               user !== undefined &&
-              <img className='m-1 w-6 rounded-full' src={user.photoURL} />
+              <img className='mr-3 w-5 rounded-full border' src={user.photoURL} />
             }
-            <h1 className='m-auto text-slate-600'>
+            <h1 className='m-auto text-white'>
             Perfil
             </h1>
 

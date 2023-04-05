@@ -6,12 +6,3 @@ export default function Report ({ codeError }) {
         </>
   )
 }
-
-Report.getInitialProps = async () => {
-  return fetch('http://localhost:3000/api/hello')
-    .then(res => res.json())
-    .then(response => {
-      const { codeError } = response
-      return { codeError }
-    })
-}
