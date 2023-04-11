@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
@@ -16,9 +17,10 @@ const firebase = initializeApp(firebaseConfig)
 const auth = getAuth(firebase)
 
 const db = getFirestore()
+const storage = getStorage()
 
 const userFirebase = (user) => {
-  console.log(user)
+  // sacar esta funcion!!!!
   return user
 }
 
@@ -56,4 +58,10 @@ export const addLink = async (description) => {
   } catch (e) {
     console.log(e)
   }
+}
+
+export const uploadFiles = (file) => {
+  const refFile = ref(storage, 'images/' + file.name)
+  const task = uploadBytesResumable(refFile, file)
+  return task
 }
