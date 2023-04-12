@@ -14,42 +14,35 @@ export default function Home () {
   const [files, setFiles] = useState(null)
 
   const [task, setTask] = useState(null)
-  const [imgURL, setImgURL] = useState(null)
+  // const [img, setImg] = useState(null)
 
   useEffect(() => {
-    console.log(task)
+    const onProgress = () => { }
+    const onError = () => { }
+    const onComplete = () => {
+      getDownloadURL(task.snapshot.ref).then((downloadURL) => {
+        upLink(downloadURL)
+      })
+    }
     if (task) {
-      console.log(task)
-      task.on('state_changed',
-        (snapshot) => {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
-        },
-        (error) => {
-          alert('problemas para subir el archivo: ' + error)
-        },
-        () => {
-          // Upload completed successfully, now we can get the download URL
-          getDownloadURL(task.snapshot.ref).then((downloadURL) => {
-            setImgURL(downloadURL)
-          })
-        }
-      )
+      task.on('state_changed', onProgress, onError, onComplete)
     }
   }, [task])
+
+  const upLink = async (dato) => {
+    // averiguar porque da null esta mierdaaaa await setImg(dato)
+    const response = await addLink(message, dato)
+    setLink(response)
+    setLoading(false)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!link) {
+      console.log(files)
       setLoading(true)
       const response = uploadFiles(files)
-      await setTask(response)
-      console.log(response)
-      const link = await addLink(message, imgURL)
-      setLink(link)
-      setLoading(false)
+      setTask(response)
     }
   }
   const clipboard = () => {
@@ -81,6 +74,13 @@ export default function Home () {
                   className='w-full py-4 resize-none border-2 text-center rounded-lg border-dashed border-blue-500 placeholder:text-center'
                 >
                   Apretar aqui para subir archivo
+                  {
+                    files &&
+                    <div>
+                      <h1>Archivo seleccionado:</h1>
+                      <h1>{files.name}</h1>
+                    </div>
+                  }
                 </div>
                 <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
               </label>
@@ -102,7 +102,7 @@ export default function Home () {
                       </div>
                     </div>
                     : <div className='flex justify-center'>
-                      <Button colorBg="bg-green-500" disabled={message.length === 0 || loading}>
+                      <Button colorBg="bg-green-500" disabled={loading}>
                         <h1>Generar Link</h1>
                       </Button>
                     </div>

@@ -45,13 +45,13 @@ export const loginWithGoogle = () => {
   )
 }
 
-export const addLink = async (description) => {
+export const addLink = async (description, imgURL) => {
   try {
     const doc = await addDoc(collection(db, 'sharelink'), {
       description,
       createdAt: Timestamp.fromDate(new Date()),
       downloadsCount: 0,
-      pathFiles: ''
+      pathFiles: imgURL
     })
     console.log(doc.id)
     return doc.id
