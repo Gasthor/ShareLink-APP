@@ -74,12 +74,13 @@ export default function Home () {
                   className='w-full py-4 resize-none border-2 text-center rounded-lg border-dashed border-blue-500 placeholder:text-center'
                 >
                   Apretar aqui para subir archivo
+                </div>
+                <div className='my-2'>
+                  <h1 className='text-center'>Archivo seleccionado:</h1>
                   {
-                    files &&
-                    <div>
-                      <h1>Archivo seleccionado:</h1>
-                      <h1>{files.name}</h1>
-                    </div>
+                    files
+                      ? <h1 className='text-sm text-center'>{files.name}</h1>
+                      : <h1 className='text-sm text-center'>Ningun archivo seleccionado</h1>
                   }
                 </div>
                 <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
@@ -102,7 +103,11 @@ export default function Home () {
                       </div>
                     </div>
                     : <div className='flex justify-center'>
-                      <Button colorBg="bg-green-500" disabled={loading}>
+                      <Button colorBg="bg-green-500" disabled={loading || !files}>
+                        {
+                          loading && <svg className="animate-spin h-5 w-5 mr-3 border-2 rounded-full border-t-transparent border-black" viewBox="0 0 24 24" />
+
+                        }
                         <h1>Generar Link</h1>
                       </Button>
                     </div>
