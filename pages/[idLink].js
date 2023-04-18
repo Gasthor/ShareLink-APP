@@ -15,6 +15,7 @@ export default function ShareLink () {
       const res = await getLink(idLink)
       setResponse(res)
       setLoading(false)
+      console.log(res)
     }
     if (idLink !== undefined) {
       getL()
@@ -23,19 +24,26 @@ export default function ShareLink () {
 
   return (
     <div className='flex justify-center max-w-3xl mx-auto'>
-      <div className='m-1 p-2 bg-white rounded-xl'>
-        <h1 className='text-xl font-semibold'>Te han compartido un link 🙀!!</h1>
+      <div className='m-1 p-2 bg-white rounded-xl flex justify-center flex-col'>
+        <h1 className='text-xl font-semibold text-center'>Te han compartido un link 🙀!!</h1>
         <h1 className='text-lg'>Detalle de este link</h1>
-        <h1>{idLink}</h1>
+
         {
           loading
             ? <h1>Cargando...</h1>
-            : <img src={response.pathFiles} />
-        }
+            : (<div className='my-2 flex flex-col justi'>
+              <h1 className='text-sm'>Comentario: {response.description}</h1>
+              <img className='rounded-lg my-4 md:max-w-lg' src={response.pathFiles} />
+            </div>
 
-        <Button colorBg="bg-green-500">
-          Descargar archivo
-        </Button>
+              )
+        }
+        <div className='flex justify-center m-4'>
+
+          <Button colorBg="bg-green-500">
+            Descargar archivo (NO HABILITADO)
+          </Button>
+        </div>
 
       </div>
 
