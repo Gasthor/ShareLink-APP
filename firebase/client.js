@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
-import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore'
+import { getFirestore, addDoc, Timestamp, collection, getDoc, doc } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -64,4 +64,15 @@ export const uploadFiles = (file) => {
   const refFile = ref(storage, 'images/' + file.name)
   const task = uploadBytesResumable(refFile, file)
   return task
+}
+
+export const getLink = async (link) => {
+  const docRef = doc(db, 'sharelink', link)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    console.log('El documento no existe')
+  }
 }

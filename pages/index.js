@@ -75,7 +75,9 @@ export default function Home () {
                 >
                   Apretar aqui para subir archivo
                 </div>
-                <div className='my-2'>
+                <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
+              </label>
+              <div className='my-2'>
                   <h1 className='text-center'>Archivo seleccionado:</h1>
                   {
                     files
@@ -83,8 +85,6 @@ export default function Home () {
                       : <h1 className='text-sm text-center'>Ningun archivo seleccionado</h1>
                   }
                 </div>
-                <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
-              </label>
               <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-2 border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
 
               <div className="flex justify-center flex-col">
