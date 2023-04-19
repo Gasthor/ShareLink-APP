@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
+import { Progress } from '@material-tailwind/react'
 
 export default function Home () {
   const [message, setMessage] = useState('')
@@ -14,10 +15,14 @@ export default function Home () {
   const [files, setFiles] = useState(null)
 
   const [task, setTask] = useState(null)
+  const [uploading, setUploading] = useState(0)
   // const [img, setImg] = useState(null)
 
   useEffect(() => {
-    const onProgress = () => { }
+    const onProgress = () => {
+      const progress = Math.trunc((task.snapshot.bytesTransferred / task.snapshot.totalBytes) * 100)
+      setUploading(progress)
+    }
     const onError = () => { }
     const onComplete = () => {
       getDownloadURL(task.snapshot.ref).then((downloadURL) => {
@@ -60,9 +65,9 @@ export default function Home () {
       </Head>
       <>
 
-        <div className="flex justify-center max-w-3xl mx-auto">
+        <div className="flex justify-center mx-auto">
 
-          <div className="m-1 p-2 bg-white rounded-xl">
+          <div className="m-1 p-2 bg-white w-11/12 max-w-lg rounded-xl">
             <h1 className="my-4 text-xl text-center">Arrastra los archivos a compartir</h1>
             <form onSubmit={handleSubmit}>
               <label>
@@ -78,15 +83,19 @@ export default function Home () {
                 <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
               </label>
               <div className='my-2'>
-                  <h1 className='text-center'>Archivo seleccionado:</h1>
-                  {
-                    files
-                      ? <h1 className='text-sm text-center'>{files.name}</h1>
-                      : <h1 className='text-sm text-center'>Ningun archivo seleccionado</h1>
-                  }
-                </div>
+                <h1 className='text-center'>Archivo seleccionado:</h1>
+                {
+                  files
+                    ? <h1 className='text-sm text-center'>{files.name}</h1>
+                    : <h1 className='text-sm text-center'>Ningun archivo seleccionado</h1>
+                }
+              </div>
               <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-2 border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
+              {
+                loading &&
+                <Progress value={uploading} label={uploading}/>
 
+              }
               <div className="flex justify-center flex-col">
                 {
                   link
@@ -105,8 +114,8 @@ export default function Home () {
                     : <div className='flex justify-center'>
                       <Button colorBg="bg-green-500" disabled={loading || !files}>
                         {
-                          loading && <svg className="animate-spin h-5 w-5 mr-3 border-2 rounded-full border-t-transparent border-black" viewBox="0 0 24 24" />
-
+                          loading &&
+                          <svg className="animate-spin h-5 w-5 mr-3 border-2 rounded-full border-t-transparent border-black" viewBox="0 0 24 24" />
                         }
                         <h1>Generar Link</h1>
                       </Button>
