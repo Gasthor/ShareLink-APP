@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
 import { Alert, Progress } from '@material-tailwind/react'
 import ConnectionStatus from '@/components/ConnectionStatus'
+import useUser from '@/hooks/useUser'
 
 export default function Home () {
   const [message, setMessage] = useState('')
+  const user = useUser()
   const [link, setLink] = useState(null)
   const [copied, setCopied] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -43,7 +45,12 @@ export default function Home () {
 
   const upLink = async (dato) => {
     // averiguar porque da null esta mierdaaaa await setImg(dato)
-    const response = await addLink(message, dato)
+    let userId = 'Anonimo'
+    console.log(user)
+    if (user !== null) {
+      userId = user.uid
+    }
+    const response = await addLink(message, dato, userId)
     setLink(response)
     setLoading(false)
   }
@@ -51,7 +58,6 @@ export default function Home () {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!link) {
-      console.log(files)
       setLoading(true)
       const response = uploadFiles(files)
       setTask(response)
