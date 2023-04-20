@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Button from './Button'
 import { useRouter } from 'next/router'
 import useUser from '@/hooks/useUser'
+import { Avatar } from '@material-tailwind/react'
 
 export default function NavBar () {
   const user = useUser()
@@ -24,9 +25,10 @@ export default function NavBar () {
           : <Button onClick={() => router.push('/user')} colorBg="bg-blue-700 border-[1px]">
             {
               user !== undefined &&
-              <img className='mr-3 w-5 rounded-full border' src={user.photoURL} />
+              <Avatar src={user.photoURL} alt="avatar" variant="circular" size='xs'/>
+
             }
-            <h1 className='m-auto text-white'>
+            <h1 className='my-auto ml-2 text-white'>
             Perfil
             </h1>
 

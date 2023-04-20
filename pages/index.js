@@ -4,7 +4,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
-import { Progress } from '@material-tailwind/react'
+import { Alert, Progress } from '@material-tailwind/react'
+import ConnectionStatus from '@/components/ConnectionStatus'
 
 export default function Home () {
   const [message, setMessage] = useState('')
@@ -19,11 +20,17 @@ export default function Home () {
   // const [img, setImg] = useState(null)
 
   useEffect(() => {
+    function updateIndicator () {
+      console.log(window.navigator.onLine)
+    }
+    window.addEventListener('online', updateIndicator)
     const onProgress = () => {
       const progress = Math.trunc((task.snapshot.bytesTransferred / task.snapshot.totalBytes) * 100)
       setUploading(progress)
     }
-    const onError = () => { }
+    const onError = (error) => {
+      <Alert>Error desconocido: {error}</Alert>
+    }
     const onComplete = () => {
       getDownloadURL(task.snapshot.ref).then((downloadURL) => {
         upLink(downloadURL)
@@ -93,7 +100,7 @@ export default function Home () {
               <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-2 border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
               {
                 loading &&
-                <Progress value={uploading} label={uploading}/>
+                <Progress value={uploading} label={'Subiendo...'} />
 
               }
               <div className="flex justify-center flex-col">
@@ -126,7 +133,11 @@ export default function Home () {
           </div>
         </div>
         <div className='flex justify-center font-semibold'>
-          <Link className='m-2 text-xs text-red-500' href='/report'>Reportar un problema</Link>
+          <div className='flex flex-col'>
+          <Link className='m-2 text-xs text-red-500 text-center' href='/report'>Reportar un problema</Link>
+          <ConnectionStatus/>
+          </div>
+
         </div>
 
       </>

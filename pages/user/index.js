@@ -3,6 +3,7 @@ import Button from '@/components/Button'
 import { useRouter } from 'next/router'
 import useUser from '@/hooks/useUser'
 import { useEffect } from 'react'
+import { Avatar } from '@material-tailwind/react'
 
 export default function User () {
   const user = useUser()
@@ -27,7 +28,7 @@ export default function User () {
                     user && (
                         <div>
                             <div className='flex justify-center m-4'>
-                                <img className='rounded-full' src={user.photoURL} />
+                            <Avatar src={user.photoURL} alt="avatar" variant="circular" size='xxl'/>
                             </div>
 
                             <h1>Nombre: {user.displayName}</h1>
