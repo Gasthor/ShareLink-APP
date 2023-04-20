@@ -15,7 +15,6 @@ export default function ShareLink () {
       const res = await getLink(idLink)
       setResponse(res)
       setLoading(false)
-      console.log(res)
     }
     if (idLink !== undefined) {
       getL()

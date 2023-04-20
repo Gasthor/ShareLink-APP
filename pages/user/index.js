@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import useUser from '@/hooks/useUser'
 import { useEffect } from 'react'
 import { Avatar } from '@material-tailwind/react'
+import ListLinkUser from '@/components/ListLinkUser'
 
 export default function User () {
   const user = useUser()
@@ -33,6 +34,7 @@ export default function User () {
 
                             <h1>Nombre: {user.displayName}</h1>
                             <h1>Correo: {user.email}</h1>
+                            <ListLinkUser uid={user.uid}/>
                             <div className='flex justify-center'>
                                 <Button onClick={handleLogOut} colorBg="bg-red-600">
                                     <h1 className='text-white'>Cerrar sesión</h1>

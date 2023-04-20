@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
-import { getFirestore, addDoc, Timestamp, collection, getDoc, doc } from 'firebase/firestore'
+import { getFirestore, addDoc, Timestamp, collection, getDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -76,5 +76,26 @@ export const getLink = async (link) => {
     return docSnap.data()
   } else {
     console.log('El documento no existe')
+  }
+}
+
+export const getLinksUser = async (uid) => {
+  const response = []
+  const req = query(collection(db, 'sharelink'), where('user', '==', uid))
+  const querySnapshot = await getDocs(req)
+  querySnapshot.forEach((doc) => {
+    const id = doc.id
+    const data = doc.data()
+    data.id = id
+    response.push(data)
+  })
+  return response
+}
+export const deleteLinkUser = async (id) => {
+  try {
+    await deleteDoc(doc(db, 'sharelink', id))
+    return 200
+  } catch {
+    return 400
   }
 }
