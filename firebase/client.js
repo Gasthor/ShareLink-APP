@@ -86,6 +86,7 @@ export const getLinksUser = async (uid) => {
   querySnapshot.forEach((doc) => {
     const id = doc.id
     const data = doc.data()
+    data.createdAt = data.createdAt.toDate()
     data.id = id
     response.push(data)
   })

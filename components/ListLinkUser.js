@@ -1,11 +1,8 @@
-import { deleteLinkUser, getLinksUser } from '@/firebase/client'
-import { useRouter } from 'next/router'
+import { getLinksUser } from '@/firebase/client'
 import { useEffect, useState } from 'react'
-import Button from './Button'
+import LinkUser from './LinkUser'
 
 export default function ListLinkUser (props) {
-  const router = useRouter()
-
   const [links, setLinks] = useState(null)
 
   useEffect(() => {
@@ -20,42 +17,21 @@ export default function ListLinkUser (props) {
     })
   }, [props.uid])
 
-  const handleGo = (id) => {
-    const param = '/' + id
-    router.push(param)
-  }
-
-  const handleDelete = async (id) => {
-    const del = deleteLinkUser(id)
-    console.log(await del)
-  }
-
   return (
-        <div className="border-b-2 border-t-2 my-4">
-            <h1 className="text-center font-semibold text-lg">Link compartidos</h1>
-            {
-                links !== null
-                  ? (
-                      links.map((doc) => (
-                            <div key={doc.id}>
-                                <h1>Descripcion: {doc.description}</h1>
-                                <div className='flex flex-row'>
-                                    <Button colorBg={'bg-blue-500'} onClick={() => handleGo(doc.id)}>
-                                        Ingresar
-                                    </Button>
-                                    <Button colorBg={'bg-red-500'} onClick={() => handleDelete(doc.id)}>
-                                        Eliminar
-                                    </Button>
-                                </div>
+    <div className="border-b-2 border-t-2 my-4">
+      <h1 className="text-center font-semibold text-lg">Link compartidos</h1>
+      {
+        links !== null
+          ? (
+              links.map((doc) => (
+                <LinkUser key={doc.id} pathFiles={doc.pathFiles} description={doc.description} id={doc.id} createdAt={doc.createdAt}/>
+              ))
+            )
+          : (
+            <div>Sorry, nada que mostrar</div>
+            )
+      }
 
-                            </div>
-                      ))
-                    )
-                  : (
-                        <div>Sorry, nada que mostrar</div>
-                    )
-            }
-
-        </div>
+    </div>
   )
 }
