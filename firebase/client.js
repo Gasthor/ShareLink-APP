@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { getFirestore, addDoc, Timestamp, collection, getDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
@@ -99,4 +99,21 @@ export const deleteLinkUser = async (id) => {
   } catch {
     return 400
   }
+}
+
+export const downloadFile = (name) => {
+  const refFile = ref(storage, name)
+  getDownloadURL(refFile).then((resp) => {
+    fetch(resp, {
+      headers: {
+        'Content-Type': 'application/octet-stream'
+      },
+      method: 'GET'
+    }).then((imgURL) => {
+      console.log(imgURL)
+      imgURL.blob().then((data) => {
+        return window.URL.createObjectURL(data)
+      })
+    })
+  })
 }

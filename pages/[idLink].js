@@ -1,5 +1,5 @@
 import Button from '@/components/Button'
-import { getLink } from '@/firebase/client'
+import { downloadFile, getLink } from '@/firebase/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -11,15 +11,24 @@ export default function ShareLink () {
   const [response, setResponse] = useState(null)
 
   useEffect(() => {
-    const getL = async () => {
-      const res = await getLink(idLink)
-      setResponse(res)
-      setLoading(false)
-    }
     if (idLink !== undefined) {
-      getL()
+      getLink(idLink).then((res) => {
+        setResponse(res)
+        setLoading(false)
+      })
     }
   }, [idLink])
+
+  const handleDownload = async () => {
+    const url = await downloadFile(response.pathFiles)
+    console.log(url)
+    const downloadLink = document.createElement('a')
+    downloadLink.href = url
+    downloadLink.download = response.description
+    document.body.appendChild(downloadLink)
+    downloadLink.click()
+    document.body.removeChild(downloadLink)
+  }
 
   return (
     <div className='flex justify-center max-w-3xl mx-auto'>
@@ -30,20 +39,23 @@ export default function ShareLink () {
         {
           loading
             ? <h1>Cargando...</h1>
-            : (<div className='my-2 flex flex-col justi'>
-              <h1 className='text-sm'>Comentario: {response.description}</h1>
-              <img className='rounded-lg my-4 md:max-w-lg' src={response.pathFiles} />
-            </div>
+            : (
+              <>
 
+                <div className='my-2 flex flex-col justi'>
+                  <h1 className='text-sm'>Comentario: {response.description}</h1>
+                  <img className='rounded-lg my-4 md:max-w-lg' src={response.pathFiles} />
+                </div>
+
+                <div className='flex justify-center m-4'>
+
+                  <Button colorBg="bg-green-500" onClick={handleDownload}>
+                    Descargar archivo (NO HABILITADO)
+                  </Button>
+                </div>
+              </>
               )
         }
-        <div className='flex justify-center m-4'>
-
-          <Button colorBg="bg-green-500">
-            Descargar archivo (NO HABILITADO)
-          </Button>
-        </div>
-
       </div>
 
     </div>
