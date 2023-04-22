@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { getFirestore, addDoc, Timestamp, collection, getDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
@@ -23,19 +23,16 @@ const userFirebase = (user) => {
   // sacar esta funcion!!!!
   return user
 }
-
 export const onAuthStateChange = (onChange) => {
   auth.onAuthStateChanged(user => {
     const normalizeUser = user ? userFirebase(user) : null
     onChange(normalizeUser)
   })
 }
-
 export const logOut = () => {
   signOut(auth)
   // falta desarrollar!!
 }
-
 export const loginWithGoogle = () => {
   const provider = new GoogleAuthProvider()
   return signInWithPopup(auth, provider).then(
@@ -44,7 +41,6 @@ export const loginWithGoogle = () => {
     }
   )
 }
-
 export const addLink = async (description, imgURL, user) => {
   try {
     console.log(user)
@@ -61,13 +57,11 @@ export const addLink = async (description, imgURL, user) => {
     console.log(e)
   }
 }
-
 export const uploadFiles = (file) => {
   const refFile = ref(storage, 'images/' + file.name)
   const task = uploadBytesResumable(refFile, file)
   return task
 }
-
 export const getLink = async (link) => {
   const docRef = doc(db, 'sharelink', link)
   const docSnap = await getDoc(docRef)
@@ -78,7 +72,6 @@ export const getLink = async (link) => {
     console.log('El documento no existe')
   }
 }
-
 export const getLinksUser = async (uid) => {
   const response = []
   const req = query(collection(db, 'sharelink'), where('user', '==', uid))
@@ -99,21 +92,4 @@ export const deleteLinkUser = async (id) => {
   } catch {
     return 400
   }
-}
-
-export const downloadFile = (name) => {
-  const refFile = ref(storage, name)
-  getDownloadURL(refFile).then((resp) => {
-    fetch(resp, {
-      headers: {
-        'Content-Type': 'application/octet-stream'
-      },
-      method: 'GET'
-    }).then((imgURL) => {
-      console.log(imgURL)
-      imgURL.blob().then((data) => {
-        return window.URL.createObjectURL(data)
-      })
-    })
-  })
 }

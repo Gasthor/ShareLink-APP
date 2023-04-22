@@ -1,5 +1,5 @@
 import Button from '@/components/Button'
-import { downloadFile, getLink } from '@/firebase/client'
+import { getLink } from '@/firebase/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -19,15 +19,18 @@ export default function ShareLink () {
     }
   }, [idLink])
 
-  const handleDownload = async () => {
-    const url = await downloadFile(response.pathFiles)
-    console.log(url)
-    const downloadLink = document.createElement('a')
-    downloadLink.href = url
-    downloadLink.download = response.description
-    document.body.appendChild(downloadLink)
-    downloadLink.click()
-    document.body.removeChild(downloadLink)
+  const downloadFile = async () => {
+    const res = await fetch(
+      response.pathFiles
+    )
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', response.description)
+    document.body.appendChild(link)
+    link.click()
+    link.parentNode.removeChild(link)
   }
 
   return (
@@ -49,8 +52,8 @@ export default function ShareLink () {
 
                 <div className='flex justify-center m-4'>
 
-                  <Button colorBg="bg-green-500" onClick={handleDownload}>
-                    Descargar archivo (NO HABILITADO)
+                  <Button colorBg="bg-green-500" onClick={downloadFile}>
+                    Descargar
                   </Button>
                 </div>
               </>
