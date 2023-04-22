@@ -24,7 +24,7 @@ export default function ListLinkUser (props) {
         links !== null
           ? (
               links.map((doc) => (
-                <LinkUser key={doc.id} pathFiles={doc.pathFiles} description={doc.description} id={doc.id} createdAt={doc.createdAt}/>
+                <LinkUser key={doc.id} pathFiles={doc.pathFiles} description={doc.description} id={doc.id} createdAt={doc.createdAt} countDownload={doc.downloadsCount} links={links} setLinks={setLinks}/>
               ))
             )
           : (

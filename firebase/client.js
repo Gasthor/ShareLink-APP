@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
-import { getFirestore, addDoc, Timestamp, collection, getDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'
+import { getFirestore, addDoc, Timestamp, collection, getDoc, doc, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -88,6 +88,17 @@ export const getLinksUser = async (uid) => {
 export const deleteLinkUser = async (id) => {
   try {
     await deleteDoc(doc(db, 'sharelink', id))
+    return 200
+  } catch {
+    return 400
+  }
+}
+export const updateDownload = async (id, count) => {
+  const docRef = doc(db, 'sharelink', id)
+  try {
+    await updateDoc(docRef, {
+      downloadsCount: count
+    })
     return 200
   } catch {
     return 400

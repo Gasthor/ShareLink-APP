@@ -14,8 +14,17 @@ export default function LinkUser (props) {
   }
 
   const handleDelete = async (id) => {
-    const del = deleteLinkUser(id)
-    console.log(await del)
+    deleteLinkUser(id).then((response) => {
+      const arr = []
+      const links = props.links
+      if (response === 200) {
+        // eslint-disable-next-line array-callback-return
+        links.map((obj) => {
+          if (obj.id !== id) arr.push(obj)
+        })
+      }
+      props.setLinks(arr)
+    })
   }
   return (
         <div key={props.id} className="border-[1px]">
@@ -25,6 +34,7 @@ export default function LinkUser (props) {
                     <div>
                         <h1>Descripcion: {props.description}</h1>
                         <h1>Creado el: {date}</h1>
+                        <h1>{props.countDownload} descargas</h1>
                     </div>
                     <div className='grid grid-cols-2 items-end'>
                         <Button colorBg={'bg-blue-500'} onClick={() => handleGo(props.id)}>

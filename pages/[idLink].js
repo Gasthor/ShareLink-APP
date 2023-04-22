@@ -1,5 +1,5 @@
 import Button from '@/components/Button'
-import { getLink } from '@/firebase/client'
+import { getLink, updateDownload } from '@/firebase/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -9,6 +9,7 @@ export default function ShareLink () {
 
   const [loading, setLoading] = useState(true)
   const [response, setResponse] = useState(null)
+  const [downloading, setDownloading] = useState(false)
 
   useEffect(() => {
     if (idLink !== undefined) {
@@ -20,6 +21,7 @@ export default function ShareLink () {
   }, [idLink])
 
   const downloadFile = async () => {
+    setDownloading(true)
     const res = await fetch(
       response.pathFiles
     )
@@ -31,6 +33,9 @@ export default function ShareLink () {
     document.body.appendChild(link)
     link.click()
     link.parentNode.removeChild(link)
+    const updateCount = updateDownload(idLink, response.downloadsCount + 1)
+    console.log(updateCount)
+    setDownloading(false)
   }
 
   return (
@@ -52,7 +57,7 @@ export default function ShareLink () {
 
                 <div className='flex justify-center m-4'>
 
-                  <Button colorBg="bg-green-500" onClick={downloadFile}>
+                  <Button colorBg="bg-green-500" onClick={downloadFile} disabled={downloading}>
                     Descargar
                   </Button>
                 </div>
