@@ -46,22 +46,28 @@ export default function ShareLink () {
 
         {
           loading
-            ? <h1>Cargando...</h1>
+            ? <h1 className='text-center text-xl animate-pulse'>Cargando...</h1>
             : (
-              <>
+                response === undefined
+                  ? <div>
+                    <h1 className='text-center text-xl'>Error 404 :/</h1>
+                    <h1>No se encontro el link compartido ☹️</h1>
+                  </div>
 
-                <div className='my-2 flex flex-col justi'>
-                  <h1 className='text-sm'>Comentario: {response.description}</h1>
-                  <img className='rounded-lg my-4 md:max-w-lg' src={response.pathFiles} />
-                </div>
+                  : <>
 
-                <div className='flex justify-center m-4'>
+                  <div className='my-2 flex flex-col justi'>
+                    <h1 className='text-sm'>Comentario: {response.description}</h1>
+                    <img className='rounded-lg my-4 md:max-w-lg' src={response.pathFiles} />
+                  </div>
 
-                  <Button colorBg="bg-green-500" onClick={downloadFile} disabled={downloading}>
-                    Descargar
-                  </Button>
-                </div>
-              </>
+                  <div className='flex justify-center m-4'>
+
+                    <Button colorBg="bg-green-500" onClick={downloadFile} disabled={downloading}>
+                      Descargar
+                    </Button>
+                  </div>
+                </>
               )
         }
       </div>

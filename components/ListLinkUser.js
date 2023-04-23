@@ -19,7 +19,7 @@ export default function ListLinkUser (props) {
 
   return (
     <div className="border-b-2 border-t-2 my-4">
-      <h1 className="text-center font-semibold text-lg">Link compartidos</h1>
+      <h1 className="text-center font-semibold text-lg my-2">Link compartidos</h1>
       {
         links !== null
           ? (

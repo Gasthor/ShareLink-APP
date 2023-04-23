@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { deleteObject, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { getFirestore, addDoc, Timestamp, collection, getDoc, doc, query, where, getDocs, deleteDoc, updateDoc } from 'firebase/firestore'
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth'
 
@@ -85,13 +85,16 @@ export const getLinksUser = async (uid) => {
   })
   return response
 }
-export const deleteLinkUser = async (id) => {
-  try {
-    await deleteDoc(doc(db, 'sharelink', id))
+export const deleteLinkUser = (id, file) => {
+  return Promise.all([
+    deleteDoc(doc(db, 'sharelink', id)),
+    deleteObject(ref(storage, file))
+  ]).then(() => {
     return 200
-  } catch {
-    return 400
-  }
+  })
+    .catch(() => {
+      return 400
+    })
 }
 export const updateDownload = async (id, count) => {
   const docRef = doc(db, 'sharelink', id)

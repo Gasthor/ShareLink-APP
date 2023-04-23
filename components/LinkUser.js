@@ -13,23 +13,28 @@ export default function LinkUser (props) {
     router.push(param)
   }
 
-  const handleDelete = async (id) => {
-    deleteLinkUser(id).then((response) => {
+  const handleDelete = async (id, file) => {
+    deleteLinkUser(id, file).then((response) => {
+      console.log(response === 200)
       const arr = []
       const links = props.links
       if (response === 200) {
         // eslint-disable-next-line array-callback-return
         links.map((obj) => {
+          console.log(obj)
           if (obj.id !== id) arr.push(obj)
         })
+        props.setLinks(arr)
+      } else {
+        alert('Error al eliminar link')
       }
-      props.setLinks(arr)
     })
   }
+
   return (
-        <div key={props.id} className="border-[1px]">
+        <div key={props.id} className="border-[1px] rounded-lg my-2">
             <div className='flex flex-row'>
-                <img src={props.pathFiles} className="m-2 w-28 rounded-xl" />
+                <img src={props.pathFiles} className="m-2 w-28 rounded-xl shadow-lg" />
                 <div className=' my-2 grid grid-cols-1 grid-rows-2 content-between'>
                     <div>
                         <h1>Descripcion: {props.description}</h1>
@@ -40,7 +45,7 @@ export default function LinkUser (props) {
                         <Button colorBg={'bg-blue-500'} onClick={() => handleGo(props.id)}>
                             Ingresar
                         </Button>
-                        <Button colorBg={'bg-red-500'} onClick={() => handleDelete(props.id)}>
+                        <Button colorBg={'bg-red-500'} onClick={() => handleDelete(props.id, props.pathFiles)}>
                             Eliminar
                         </Button>
                     </div>

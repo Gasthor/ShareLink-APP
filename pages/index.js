@@ -81,7 +81,7 @@ export default function Home () {
         <div className="flex justify-center mx-auto">
 
           <div className="m-1 p-2 bg-white w-11/12 max-w-lg rounded-xl">
-            <h1 className="my-4 text-xl text-center">Arrastra los archivos a compartir</h1>
+            <h1 className="my-4 text-xl font-medium text-center">Arrastra los archivos a compartir</h1>
             <form onSubmit={handleSubmit}>
               <label>
                 <div
@@ -89,13 +89,13 @@ export default function Home () {
                   value=""
                   placeholder='Arrastra tus archivos en esta zona'
                   rows="6"
-                  className='w-full py-4 resize-none border-2 text-center rounded-lg border-dashed border-blue-500 placeholder:text-center'
+                  className='w-full py-4 resize-none border-2 text-center rounded-lg shadow-lg bg-gray-200 placeholder:text-center'
                 >
                   Apretar aqui para subir archivo
                 </div>
                 <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
               </label>
-              <div className='my-2'>
+              <div className='my-4'>
                 <h1 className='text-center'>Archivo seleccionado:</h1>
                 {
                   files
@@ -103,7 +103,7 @@ export default function Home () {
                     : <h1 className='text-sm text-center'>Ningun archivo seleccionado</h1>
                 }
               </div>
-              <input className='bg-slate-200 my-1 w-full p-1 rounded-lg border-2 border-blue-500' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
+              <input className='bg-gray-200 my-1 w-full p-1 rounded-lg shadow-lg' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
               {
                 loading &&
                 <Progress value={uploading} label={'Subiendo...'} />
