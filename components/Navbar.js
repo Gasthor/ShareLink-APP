@@ -18,7 +18,7 @@ export default function NavBar () {
       {
         user === null
           ? (
-            <div className='bg-blue-700 p-2 m-1 rounded-xl border-[1px] shadow-lg'>
+            <div className='bg-blue-700 p-2 m-1 rounded-xl shadow-lg'>
               <a className='text-white text-sm font-semibold' href='/auth'>Iniciar sesión</a>
             </div>
             )
