@@ -18,11 +18,11 @@ export default function NavBar () {
       {
         user === null
           ? (
-            <div className='bg-blue-700 p-2 m-1 rounded-xl shadow-lg'>
+            <div className='bg-blue-600 dark:bg-blue-800 p-2 m-1 rounded-xl shadow-lg'>
               <a className='text-white text-sm font-semibold' href='/auth'>Iniciar sesión</a>
             </div>
             )
-          : <Button onClick={() => router.push('/user')} colorBg="bg-blue-700 dark:bg-blue-800 shadow-lg">
+          : <Button onClick={() => router.push('/user')} colorBg="bg-blue-600 dark:bg-blue-800 shadow-lg">
             {
               user !== undefined &&
               <Avatar src={user.photoURL} alt="avatar" variant="circular" size='xs'/>
