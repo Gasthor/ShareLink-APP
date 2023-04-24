@@ -9,7 +9,7 @@ export default function NavBar () {
   const router = useRouter()
 
   return (
-    <nav className="flex justify-between bg-blue-600 py-1 px-4 mb-1 shadow-xl">
+    <nav className="flex justify-between bg-blue-700 dark:bg-blue-900 py-1 px-4 mb-1 shadow-xl">
       <div className="max-w-5xl flex">
         <Link className="text-white flex" href="/">
           <h1 className='m-auto text-lg font-semibold'>ShareLink</h1>
@@ -22,7 +22,7 @@ export default function NavBar () {
               <a className='text-white text-sm font-semibold' href='/auth'>Iniciar sesión</a>
             </div>
             )
-          : <Button onClick={() => router.push('/user')} colorBg="bg-blue-700 border-[1px]">
+          : <Button onClick={() => router.push('/user')} colorBg="bg-blue-700 dark:bg-blue-800 shadow-lg">
             {
               user !== undefined &&
               <Avatar src={user.photoURL} alt="avatar" variant="circular" size='xs'/>

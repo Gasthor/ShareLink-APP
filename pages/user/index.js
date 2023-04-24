@@ -22,8 +22,8 @@ export default function User () {
 
   return (
         <div className="flex justify-center">
-            <div className="bg-white m-1 p-2 rounded-xl flex flex-col justify-center max-w-lg w-11/12">
-                <h1 className="text-2xl text-center">Perfil</h1>
+            <div className="bg-white dark:bg-gray-900 m-1 p-2 rounded-xl flex flex-col justify-center max-w-lg w-11/12">
+                <h1 className="text-2xl text-center dark:text-white">Perfil</h1>
 
                 {
                     user && (
@@ -32,8 +32,8 @@ export default function User () {
                             <Avatar src={user.photoURL} alt="avatar" variant="circular" size='xxl'/>
                             </div>
 
-                            <h1>Nombre: {user.displayName}</h1>
-                            <h1>Correo: {user.email}</h1>
+                            <h1 className='dark:text-white'>Nombre: {user.displayName}</h1>
+                            <h1 className='dark:text-white'>Correo: {user.email}</h1>
                             <ListLinkUser uid={user.uid}/>
                             <div className='flex justify-center'>
                                 <Button onClick={handleLogOut} colorBg="bg-red-600">

@@ -32,21 +32,21 @@ export default function LinkUser (props) {
   }
 
   return (
-        <div key={props.id} className="border-[1px] rounded-lg my-2">
+        <div key={props.id} className="border-[1px] dark:border-black rounded-lg my-2">
             <div className='flex flex-row'>
-                <img src={props.pathFiles} className="m-2 w-28 rounded-xl shadow-lg" />
+                <img src={props.pathFiles} className="m-2 w-28 rounded-xl shadow-lg object-cover" />
                 <div className=' my-2 grid grid-cols-1 grid-rows-2 content-between'>
                     <div>
-                        <h1>Descripcion: {props.description}</h1>
-                        <h1>Creado el: {date}</h1>
-                        <h1>{props.countDownload} descargas</h1>
+                        <h1 className='dark:text-white'>Descripcion: {props.description}</h1>
+                        <h1 className='dark:text-white'>Creado el: {date}</h1>
+                        <h1 className='dark:text-white'>{props.countDownload} descargas</h1>
                     </div>
                     <div className='grid grid-cols-2 items-end'>
-                        <Button colorBg={'bg-blue-500'} onClick={() => handleGo(props.id)}>
-                            Ingresar
+                        <Button colorBg={'bg-blue-500 dark:bg-blue-800'} onClick={() => handleGo(props.id)}>
+                            <h1 className='text-white'>Ver</h1>
                         </Button>
                         <Button colorBg={'bg-red-500'} onClick={() => handleDelete(props.id, props.pathFiles)}>
-                            Eliminar
+                          <h1 className='text-white'>Eliminar</h1>
                         </Button>
                     </div>
                 </div>

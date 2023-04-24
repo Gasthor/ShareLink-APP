@@ -107,3 +107,20 @@ export const updateDownload = async (id, count) => {
     return 400
   }
 }
+export const reportLink = async (idLink, message) => {
+  try {
+    const doc = await addDoc(collection(db, 'reportLink'), {
+      idLink,
+      message,
+      createdAt: Timestamp.fromDate(new Date())
+    })
+    console.log(doc.id)
+    return {
+      idReport: doc.id,
+      status: 200
+    }
+  } catch (e) {
+    console.log(e)
+    return { status: 400 }
+  }
+}

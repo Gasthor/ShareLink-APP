@@ -1,7 +1,6 @@
 import Button from '@/components/Button'
 import { addLink, uploadFiles } from '@/firebase/client'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { getDownloadURL } from 'firebase/storage'
 import { Alert, Progress } from '@material-tailwind/react'
@@ -80,8 +79,8 @@ export default function Home () {
 
         <div className="flex justify-center mx-auto">
 
-          <div className="m-1 p-2 bg-white w-11/12 max-w-lg rounded-xl">
-            <h1 className="my-4 text-xl font-medium text-center">Arrastra los archivos a compartir</h1>
+          <div className="m-1 p-2 bg-white w-11/12 max-w-lg rounded-xl dark:bg-gray-900">
+            <h1 className="my-4 text-xl font-medium text-center dark:text-white">Arrastra los archivos a compartir</h1>
             <form onSubmit={handleSubmit}>
               <label>
                 <div
@@ -89,21 +88,21 @@ export default function Home () {
                   value=""
                   placeholder='Arrastra tus archivos en esta zona'
                   rows="6"
-                  className='w-full py-4 resize-none border-2 text-center rounded-lg shadow-lg bg-gray-200 placeholder:text-center'
+                  className='w-full py-4 resize-none text-center rounded-lg shadow-lg bg-gray-200 placeholder:text-center dark:bg-gray-800 dark:text-white'
                 >
                   Apretar aqui para subir archivo
                 </div>
                 <input id="dropzone-file" type="file" className='hidden' onChange={e => setFiles(e.target.files[0])} />
               </label>
               <div className='my-4'>
-                <h1 className='text-center'>Archivo seleccionado:</h1>
+                <h1 className='text-center dark:text-white'>Archivo seleccionado:</h1>
                 {
                   files
-                    ? <h1 className='text-sm text-center'>{files.name}</h1>
-                    : <h1 className='text-sm text-center'>Ningun archivo seleccionado</h1>
+                    ? <h1 className='text-sm text-center dark:text-white'>{files.name}</h1>
+                    : <h1 className='text-sm text-center dark:text-white'>Ningun archivo seleccionado</h1>
                 }
               </div>
-              <input className='bg-gray-200 my-1 w-full p-1 rounded-lg shadow-lg' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
+              <input className='bg-gray-200 my-1 w-full p-1 rounded-lg shadow-lg dark:text-white dark:bg-gray-800' placeholder='Agrega una descripcion (OPCIONAL)' value={message} onChange={e => setMessage(e.target.value)} />
               {
                 loading &&
                 <Progress value={uploading} label={'Subiendo...'} />
@@ -140,7 +139,6 @@ export default function Home () {
         </div>
         <div className='flex justify-center font-semibold'>
           <div className='flex flex-col'>
-          <Link className='m-2 text-xs text-red-500 text-center' href='/report'>Reportar un problema</Link>
           <ConnectionStatus/>
           </div>
 

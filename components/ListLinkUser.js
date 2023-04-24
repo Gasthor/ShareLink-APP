@@ -18,8 +18,8 @@ export default function ListLinkUser (props) {
   }, [props.uid])
 
   return (
-    <div className="border-b-2 border-t-2 my-4">
-      <h1 className="text-center font-semibold text-lg my-2">Link compartidos</h1>
+    <div className="border-t-[1px] my-4 dark:border-black">
+      <h1 className="text-center font-semibold text-lg my-2 dark:text-white">Link compartidos</h1>
       {
         links !== null
           ? (
@@ -28,7 +28,7 @@ export default function ListLinkUser (props) {
               ))
             )
           : (
-            <div>Sorry, nada que mostrar</div>
+            <div className='dark:text-white' >Sorry, nada que mostrar</div>
             )
       }
 
